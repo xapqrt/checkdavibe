@@ -1,0 +1,66 @@
+{
+    "manifest_version": 3,
+    "name":"VibeCheck",
+    "version": "0.1.0",
+    "description": "filter out bad vibes from your social feed",
+
+    "permissions": [
+
+        "storage",
+        "activeTab"
+    ],
+
+    "host_permissions": [
+        "*://twitter.com/*",
+        "*://x.com/*",
+        "*://reddit.com/*",
+        "*://www.reddit.com/*",
+        "*://linkedin.com/*",
+        "*://www.linkedin.com/*"
+    ],
+
+    "content_scripts": [
+        {
+            "matches": [
+                "*://twitter.com/*",
+                "*://x.com/*",
+                "*://reddit.com/*",
+                "*://www.reddit.com/*",
+                "*://linkedin.com/*",
+                "*://www.linkedin.com/*"
+            ],
+            "js": [
+                "content/dictionary.js",
+                "content/engine.js",
+                "content/main.js"
+            ],
+            "css": [
+                "styles/content.css"
+            ],
+            "run_at": "document_end"
+        }
+    ],
+
+    "background": {
+        "service_worker": "background.js"
+    },
+
+    "action": {
+
+        "default_popup": "popup/popup.html",
+        "default_icon": {
+
+            "16": "icons/icon16.png",
+            "48": "icons/icon48.png",
+            "128": "icons/icon128.png"
+        }
+    },
+
+    "icons":
+    {
+        "16": "icons/icon16.png",
+        "48": "icons/icon48.png",
+        "128": "icons/icon128.png"
+    }
+
+}
