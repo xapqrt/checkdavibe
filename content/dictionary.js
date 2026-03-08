@@ -1,0 +1,33 @@
+const bad_words = {
+
+    "hate": -1.5,
+    "angry": -1.2,
+    "frustrated": -1.0,
+    "rage": -1.4,
+    "mad": -0.8,
+    "awful": -1.3,
+    "terrible": -1.1,
+    "horrible": -1.4,
+    "disgusting": -1.6,
+    "despise": -1.5,
+    "vile": -1.4,
+    "evil": -1.6,
+    "abhor": -1.5,
+    "repugnant": -1.7,
+    "loathsome": -1.6,
+    "bad": -0.9,
+    "sad": -0.7,
+    "unhappy": -0.8,
+    "upset": -0.9,
+    "annoyed": -0.6,
+    "bothered": -0.7,
+    "irritated": -0.8,
+    "disgruntled": -1.0,
+    "miserable": -1.2,
+    "pathetic": -1.1,
+    "nasty": -1.2,
+    "gross": -1.0,
+    "yucky": -0.9,
+
+
+}
