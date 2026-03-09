@@ -15,9 +15,15 @@ const SELECTORS = {
 
 
     twitter: '[data-testid="tweet"]',
-    reddit: 'shreddit-post, div[data-testid="post-container"]',
+    reddit: 'shreddit-post',
     linkedin: 'div.feed-shared-update-v2'
 };
+
+
+const REDDIT_BACKUP = 'div[id^="t3_"]';
+
+
+
 
 
 function getPlatform() {
@@ -40,8 +46,15 @@ function initWhenReady() {
 
     const interval = setInterval(() => {
 
-        const selector = SELECTORS[current_platform];
-        if (!selector) return;
+        let selector = SELECTORS[current_platform];
+        if (current_platform === 'reddit'){
+
+
+            if(!document.querySelector(slector)) {
+
+                selector = "REDDIT_BACKUP";
+            }
+        }
         if (document.querySelector(selector)) {
 
    
@@ -77,7 +90,18 @@ function initScanner() {
 function scanFeed() {
 
     const start = performance.now();
-    const selector = SELECTORS[current_platform];
+    let selector = SELECTORS[current_platform];
+
+    if(current_platform === 'reddit') {
+
+        let posts = document.querySelectorAll('selector');
+
+        if (posts.length === 0) {
+
+            selector = REDDIT_BACKUP;
+            console.log("using backup reddit selector for now")
+        }
+    }
     const posts = document.querySelectorAll(selector);
 
 
