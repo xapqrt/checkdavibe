@@ -38,13 +38,14 @@ console.log('platform: ', current_platform);
 
 function initWhenReady() {
 
-    const Interval = setInterval(() => {
+    const interval = setInterval(() => {
 
         const selector = SELECTORS[current_platform];
+        if (!selector) return;
         if (document.querySelector(selector)) {
 
    
-            clean_interval(interval);
+            clearInterval(interval);
             console.log("posts found, starting da scanner");
             initScanner();
         }
@@ -117,7 +118,7 @@ function scanFeed() {
 
 function injectBlur(post, score) {
 
-    if (post.style.position !== 'absolute' && post.style.position !== relative) {
+    if (post.style.position !== 'absolute' && post.style.position !== 'relative') {
 
         post.style.position = 'relative';
 
@@ -126,16 +127,19 @@ function injectBlur(post, score) {
 
 
     const overlay = document.createElement('div');
+    overlay.className = 'vibe-overlay';
+
+    const warning = document.createElement('div');
 
     warning.className = 'vibe-warning';
-    warning.text-content = `Potentially negative content (score : ${score.toFixed(1)})`;
+    warning.textContent = `Potentially negative content (score: ${score.toFixed(1)})`;
 
     const btn = document.createElement('button');
     btn.className = 'vibe-reveal-btn';
     btn.textContent = 'Reveal anyway';
 
 
-    btn.onClick = () => {
+    btn.onclick = () => {
 
         overlay.remove();
         console.log('revealed post');
