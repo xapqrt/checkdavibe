@@ -1,6 +1,8 @@
-function analyzeVibe(text) {
+function analyzeVibe(text, active_cats) {
 
-if(!text || text.length < 5) return 0;
+
+
+if(!text || text.length < 5) return {score:0, emotion: null};
 
 
 const txt = text.toLowerCase();
@@ -10,7 +12,7 @@ const words = txt.split(/\s+/);
 let score = 0;
 let bad_count = 0;
 let good_count = 0;
-
+let detected = null;
 
 
 words.forEach(word => {
@@ -21,16 +23,24 @@ words.forEach(word => {
 
     if(bad_words[clean_word]) {
 
-        score += bad_words[clean_word];
-        bad_count++;
+        const entry = bad_words[clean_word];
+        if(!active_cats || active_cats.includes(entry.cat)) {
+
+            score += entry.score;
+            bad_count++;
+
+            if(!detected) detected = entry.cat;
+        }
 
     }
 
 
     if (good_words[clean_word]) {
-        score += good_words[clean_word];
-
-        good_count++;
+        const entry = good_words[clean_word];
+        if(!active_cats || active_cats.includes(entry.cat)) {
+            score += entry.score;
+            good_count++;
+        }
     }
 
 
@@ -49,19 +59,17 @@ if(text === text.toUpperCase() && text.length > 10 && bad_count > 0)  {
 
 
 
-                return score;
+                return {score: score, emotion: detected};
 }
 
 
 //i think final function
 
 
-function isToxic(text, threshold = -2.0) {
+function isToxic(text, threshold, active_cats) {
 
-    const score = analyzeVibe(text);
+    const score = analyzeVibe(text, active_cats);
     return score < threshold;
 
 }
 
-
-console.log('fah engine is on')

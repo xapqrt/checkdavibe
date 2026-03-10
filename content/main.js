@@ -227,12 +227,18 @@ function scanFeed() {
         }
 
         //i think the above shi is ok for now
-        const vibe_score = analyzeVibe(txt);
-        console.log('vibe score: ', vibe_score.toFixed(2));
+       const active_cats = {
 
-        if (vibe_score < settings.threshold) {
+            anger: settings.block_anger,
+            sadness: settings.block_sadness,
+            toxic: settings.block_toxic
+        };
+            const {score: vibe_score, emotion} = analyzeVibe(txt, active_cats);
 
-            injectBlur(post, vibe_score);
+
+        if (vibe_score < settings.threshold && emotion !== null) {
+
+            injectBlur(post, vibe_score, emotion);
         }
 
 
@@ -253,7 +259,7 @@ function scanFeed() {
 
 
 
-function injectBlur(post, score) {
+function injectBlur(post, score, emotion) {
 
     try {
 
@@ -272,8 +278,8 @@ function injectBlur(post, score) {
     const warning = document.createElement('div');
 
     warning.className = 'vibe-warning';
-    warning.textContent = `Potentially negative content (score: ${score.toFixed(1)})`;
-
+    const label = emotion ? emotion.charAt(0).toUpperCase() + emotion.slice(1) : 'Negative';
+    warning.textContent = `potentially negative content: ${label}`;
     const btn = document.createElement('button');
     btn.className = 'vibe-reveal-btn';
     btn.textContent = 'Reveal anyway';
