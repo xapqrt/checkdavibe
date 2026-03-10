@@ -11,6 +11,53 @@ let mut_obs = null;
 let scan_delay = 300;
 let debounce_timeout = null;
 
+
+
+let settings = {
+
+    enabled: true,
+    threshold : -2.0,
+    block_anger: true,
+    block_sadness: false,
+    block_toxic: true
+};
+
+
+
+
+
+chrome.storage.sync.get(['enabled', 'threshold', 'block_anger', 'block_sadness', 'block_toxic'], (result) => {
+
+
+
+
+    if(result.enabled !== undefined) settings.enabled = result.enabled;
+    if(result.threshold !== undefined) settings.threshold = result.threshold;
+
+    if(result.block_anger !== undefined) settings.block_anger = result.block_anger;
+    if(result.block_sadness !== undefined) settings.block_anger = result.block_sadness;
+
+    if(result.block_toxic !== undefined) settings.block_toxic = result.block_toxic;
+
+    console.log('loaded da settings', settings);
+});
+
+
+
+chrome.storage.onChanged.addListener((changes, area) => {
+
+    if (area === 'sync') {
+
+        if (changes.enabled) settings.enabled = changes.enabled.newValue;
+        if(changes.threshold) settings.threshold = changes.threshold.newValue;
+        if(changes.block_anger) settings.block_anger = changes.block_anger.newValue;
+        if(changes.block_sadness) settings.block_sadness = changes.block_sadness.newValue;
+        if(changes.block_toxic) settings.block_sadness = changes.block_toxic.newValue;
+        
+        console.log('settings updated: ', settings);
+        }
+});
+
 const SELECTORS = {
 
 
@@ -142,7 +189,7 @@ function scanFeed() {
         const vibe_score = analyzeVibe(txt);
         console.log('vibe score: ', vibe_score.toFixed(2));
 
-        if (vibe_score < -2.0) {
+        if (vibe_score < settings.threshold) {
 
             injectBlur(post, vibe_score);
         }
