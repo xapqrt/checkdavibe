@@ -204,6 +204,15 @@ function scanFeed() {
         }
 
 
+
+        if (txt.length > 5000) {
+
+            console.log('post too long, so amma skip it');
+            post.setAttribute('vibe-checked', 'true');
+            return;
+        }
+
+        //i think the above shi is ok for now
         const vibe_score = analyzeVibe(txt);
         console.log('vibe score: ', vibe_score.toFixed(2));
 
