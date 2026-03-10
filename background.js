@@ -22,10 +22,24 @@ chrome.runtime.onInstalled.addListener(() => {
     chrome.storage.sync.set({
 
         enabled: true,
-        threshold: 0.62,
+        threshold: -2.0,
         block_anger:true,
         block_sadness: false,
         block_toxic: true
     });
+});
+
+
+
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+
+
+    if(request.action === 'getStats') {
+
+
+        sendResponse({status: 'active'});
+    }
+
+    return true;
 });
 

@@ -1,0 +1,64 @@
+.vibe-overlay {
+
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    background: rgba(0,0,0,0.3);
+
+    backdrop-filter: blur(22px) !important;
+    -webkit-backdrop-filter: blur(22px) !important;
+    z-index: 9999;
+    display: flex;
+    flex-drection: column;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    pointer-events: auto;
+
+}
+
+
+.vibe-warning {
+
+    color: #ff6b6b;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    text-align: center;
+    padding: 0 20px;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+}
+
+
+
+.vibe-reveal-btn {
+
+    background: #1DB594 !important;
+    color: white !important;
+    border: none !important;
+    padding: 8px 16px !important;
+
+    border-radius: 20px !important;
+    font-size: 13px !important;
+
+    cursor: pointer !important;
+
+    transition: transform 0.2s;
+
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3) !important;
+
+}
+
+
+
+
+
+.vibe-reveal-btn:hover {
+
+    transform: scale(1.05);
+    background: #1ed760 !important;
+}
