@@ -40,7 +40,7 @@ words.forEach(word => {
 //all caps multiplier
 
 
-if(text === text.toUpperCase() && text.length > 10)  {
+if(text === text.toUpperCase() && text.length > 10 && bad_count > 0)  {
 
 
     score *= 1.5;

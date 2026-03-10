@@ -10,6 +10,8 @@ const config = {
 let mut_obs = null;
 let scan_delay = 300;
 let debounce_timeout = null;
+let scan_count = 0;
+let last_scan = 0;
 
 
 
@@ -148,6 +150,22 @@ function initScanner() {
 
 function scanFeed() {
 
+
+    const now = Date.now();
+
+
+    if(now - last_scan < 100) {
+
+
+
+        console.log('skipping scan, too soon');
+        return;
+    }
+
+
+    last_scan = now;
+
+
     const start = performance.now();
     let selector = SELECTORS[current_platform];
 
@@ -203,6 +221,9 @@ function scanFeed() {
 
      const elapsed = performance.now() - start;
      
+
+     scan_count++;
+     console.log(`scanned ${checked_count} posts in ${elapsed.toFixed(1)}ms (total scans: ${scan_count})`);
 
         
 }
