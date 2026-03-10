@@ -241,13 +241,16 @@ function scanFeed() {
 
 function injectBlur(post, score) {
 
-    if (post.style.position !== 'absolute' && post.style.position !== 'relative') {
+    try {
 
-        post.style.position = 'relative';
+        const computed = window.getComputedStyle(post).position;
+        if (computed !== 'absolute' && computed !== 'relative' && computed !== 'fixed') {
 
+            post.style.position = 'relative';
+        }
+    } catch (e) {
+        console.error('Error setting position:', e);
     }
-
-
 
     const overlay = document.createElement('div');
     overlay.className = 'vibe-overlay';
