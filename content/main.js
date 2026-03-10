@@ -37,7 +37,7 @@ chrome.storage.sync.get(['enabled', 'threshold', 'block_anger', 'block_sadness',
     if(result.threshold !== undefined) settings.threshold = result.threshold;
 
     if(result.block_anger !== undefined) settings.block_anger = result.block_anger;
-    if(result.block_sadness !== undefined) settings.block_anger = result.block_sadness;
+    if(result.block_sadness !== undefined) settings.block_sadness = result.block_sadness;
 
     if(result.block_toxic !== undefined) settings.block_toxic = result.block_toxic;
 
@@ -50,11 +50,11 @@ chrome.storage.onChanged.addListener((changes, area) => {
 
     if (area === 'sync') {
 
-        if (changes.enabled) settings.enabled = changes.enabled.newValue;
-        if(changes.threshold) settings.threshold = changes.threshold.newValue;
-        if(changes.block_anger) settings.block_anger = changes.block_anger.newValue;
-        if(changes.block_sadness) settings.block_sadness = changes.block_sadness.newValue;
-        if(changes.block_toxic) settings.block_sadness = changes.block_toxic.newValue;
+        if (changes.enabled !== undefined) settings.enabled = changes.enabled.newValue;
+        if(changes.threshold !== undefined) settings.threshold = changes.threshold.newValue;
+        if(changes.block_anger !== undefined) settings.block_anger = changes.block_anger.newValue;
+        if(changes.block_sadness !== undefined) settings.block_sadness = changes.block_sadness.newValue;
+        if(changes.block_toxic !== undefined) settings.block_toxic = changes.block_toxic.newValue;
         
         console.log('settings updated: ', settings);
         }
