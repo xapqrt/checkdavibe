@@ -96,6 +96,10 @@ console.log('platform: ', current_platform);
 
 function initWhenReady() {
 
+
+    let retries = 0;
+    const max_retries = 20;
+
     const interval = setInterval(() => {
 
         let selector = SELECTORS[current_platform];
@@ -122,6 +126,16 @@ function initWhenReady() {
             clearInterval(interval);
             console.log("posts found, starting da scanner");
             initScanner();
+            return;
+        }
+
+
+
+        retries++;
+        if(retries >= max_retries) {
+
+            clearInterval(interval);
+            console.log('could not find posts after max retries, giving up');
         }
     }, 500);
 }
