@@ -177,9 +177,9 @@ function initWhenReady() {
         if (current_platform === 'reddit'){
 
 
-            if(!document.querySelector(slector)) {
+            if(!document.querySelector(selector)) {
 
-                selector = "REDDIT_BACKUP";
+                selector = REDDIT_BACKUP;
             }
         }
 
@@ -256,7 +256,7 @@ function scanFeed() {
 
     if(current_platform === 'reddit') {
 
-        let posts = document.querySelectorAll('selector');
+        let posts = document.querySelectorAll(selector);
 
         if (posts.length === 0) {
 
