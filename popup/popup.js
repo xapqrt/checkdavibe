@@ -21,7 +21,17 @@ function renderWhitelistTags() {
 
         const tag = document.createElement('div');
         tag.className = 'whitelist-tag';
-        tag.innerHTML = `<span>${item}</span><button class="whitelist-remove" data-index="${i}">&times;</button>`;
+
+        const span = document.createElement('span');
+        span.textContent = item;
+
+        const remove_btn = document.createElement('button');
+        remove_btn.className = 'whitelist-remove';
+        remove_btn.setAttribute('data-index', i);
+        remove_btn.textContent = '\u00D7';
+
+        tag.appendChild(span);
+        tag.appendChild(remove_btn);
         container.appendChild(tag);
     });
 
