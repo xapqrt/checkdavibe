@@ -8,6 +8,36 @@ document.addEventListener('DOMContentLoaded', () => {
 
 });
 
+let current_whitelist = [];
+
+
+function renderWhitelistTags() {
+
+
+    const container = document.getElementById('whitelist-tags');
+    container.innerHTML = '';
+
+    current_whitelist.forEach((item, i) => {
+
+        const tag = document.createElement('div');
+        tag.className = 'whitelist-tag';
+        tag.innerHTML = `<span>${item}</span><button class="whitelist-remove" data-index="${i}">&times;</button>`;
+        container.appendChild(tag);
+    });
+
+    //remove buttons
+    container.querySelectorAll('.whitelist-remove').forEach(btn => {
+
+        btn.addEventListener('click', (e) => {
+
+            const idx = parseInt(e.target.getAttribute('data-index'));
+            current_whitelist.splice(idx, 1);
+            renderWhitelistTags();
+        });
+    });
+}
+
+
 function init() {
 
     const thresholdSlider = document.getElementById('threshold');
@@ -30,7 +60,8 @@ function init() {
             threshold: parseFloat(document.getElementById('threshold').value),
             block_anger: document.getElementById('block_anger').checked,
             block_sadness: document.getElementById('block_sadness').checked,
-            block_toxic: document.getElementById('block_toxic').checked
+            block_toxic: document.getElementById('block_toxic').checked,
+            whitelist: current_whitelist
 
         };
 
@@ -46,6 +77,29 @@ function init() {
 
             }, 2000);
         });
+    });
+
+
+    //whitelist stuff
+    const whitelist_input = document.getElementById('whitelist-input');
+    const add_btn = document.getElementById('add-whitelist');
+
+    add_btn.addEventListener('click', () => {
+
+        const val = whitelist_input.value.trim();
+        if(val && !current_whitelist.includes(val)) {
+
+            current_whitelist.push(val);
+            renderWhitelistTags();
+            whitelist_input.value = '';
+        }
+    });
+
+    whitelist_input.addEventListener('keydown', (e) => {
+
+        if(e.key === 'Enter') {
+            add_btn.click();
+        }
     });
 
 
@@ -84,7 +138,8 @@ function loadSettings() {
         'threshold',
         'block_anger',
         'block_sadness',
-        'block_toxic'
+        'block_toxic',
+        'whitelist'
     ], (result) => {
 
         document.getElementById('enabled').checked = result.enabled ?? true;
@@ -95,6 +150,9 @@ function loadSettings() {
         document.getElementById('block_sadness').checked = result.block_sadness ?? false;
 
         document.getElementById('block_toxic').checked = result.block_toxic ?? true;
+
+        current_whitelist = result.whitelist || [];
+        renderWhitelistTags();
     });
 }
 

@@ -25,7 +25,8 @@ chrome.runtime.onInstalled.addListener(() => {
         threshold: -2.0,
         block_anger:true,
         block_sadness: false,
-        block_toxic: true
+        block_toxic: true,
+        whitelist: []
     });
 });
 

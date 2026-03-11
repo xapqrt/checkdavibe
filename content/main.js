@@ -63,14 +63,15 @@ let settings = {
     threshold : -2.0,
     block_anger: true,
     block_sadness: false,
-    block_toxic: true
+    block_toxic: true,
+    whitelist: []
 };
 
 
 
 
 
-chrome.storage.sync.get(['enabled', 'threshold', 'block_anger', 'block_sadness', 'block_toxic'], (result) => {
+chrome.storage.sync.get(['enabled', 'threshold', 'block_anger', 'block_sadness', 'block_toxic', 'whitelist'], (result) => {
 
 
 
@@ -82,6 +83,7 @@ chrome.storage.sync.get(['enabled', 'threshold', 'block_anger', 'block_sadness',
     if(result.block_sadness !== undefined) settings.block_sadness = result.block_sadness;
 
     if(result.block_toxic !== undefined) settings.block_toxic = result.block_toxic;
+    if(result.whitelist !== undefined) settings.whitelist = result.whitelist;
 
     console.log('loaded da settings', settings);
 });
@@ -285,6 +287,23 @@ function scanFeed() {
             console.log('post too long, so amma skip it');
             post.setAttribute('vibe-checked', 'true');
             return;
+        }
+
+
+        //whitelist check - skip if any whitelisted word/user is in da post
+        if(settings.whitelist && settings.whitelist.length > 0) {
+
+            const lower_txt = txt.toLowerCase();
+            const is_whitelisted = settings.whitelist.some(item => {
+                return lower_txt.includes(item.toLowerCase());
+            });
+
+            if(is_whitelisted) {
+
+                console.log('post whitelisted, skipping');
+                post.setAttribute('vibe-checked', 'true');
+                return;
+            }
         }
 
         //i think the above shi is ok for now
