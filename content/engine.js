@@ -1,3 +1,7 @@
+const negation_words = new Set(['not', 'never', 'no', 'none', 'nobody', 'nothing', 'nowhere', 'hardly', 'scarcely', 'barely']);
+
+
+
 function analyzeVibe(text, active_cats) {
 
 
@@ -15,9 +19,13 @@ let good_count = 0;
 let detected = null;
 
 
-words.forEach(word => {
+words.forEach((word, i) =>  {
     const clean_word = word.replace(/[.,!?;;'"]/g, '');
+    const prev_word = i  > 0 ? words[i-1].replace(/[.,!?;;'"]/g, '') : null;
+    const is_negated = negation_words.has(prev_word);
 
+
+    //handle negation
     //fah tf did i write
 
 
@@ -26,8 +34,16 @@ words.forEach(word => {
         const entry = bad_words[clean_word];
         if(!active_cats || active_cats.includes(entry.cat)) {
 
-            score += entry.score;
+           const word_score = is_negated ? entry.score * -0.5 : entry.score;
+
+           score += word_score;
+
+           if(!is_negated) {
+
             bad_count++;
+
+            if(detected === null) detected = entry.cat;
+           }
 
             if(!detected) detected = entry.cat;
         }
@@ -38,8 +54,11 @@ words.forEach(word => {
     if (good_words[clean_word]) {
         const entry = good_words[clean_word];
         if(!active_cats || active_cats.includes(entry.cat)) {
-            score += entry.score;
-            good_count++;
+            const word_score = is_negated ? entry.score * -0.5 : entry.score;
+
+            score += word_score;
+
+            if(!is_negated) good_count++;
         }
     }
 
