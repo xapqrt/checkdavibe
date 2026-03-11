@@ -60,6 +60,41 @@ chrome.storage.onChanged.addListener((changes, area) => {
         }
 });
 
+
+
+    chrome.storage.onChanged.addListener((changes, area) => {
+
+    if(area === 'sync') {
+
+        if(changes.enabled !== undefined) settings.enabled = changes.enabled.newValue;
+        if(changes.threshold !== undefined) settings.threshold = changes.threshold.newValue;
+        if(changes.block_anger !== undefined) settings.block_anger = changes.block_anger.newValue;
+        if(changes.block_sadness !== undefined) settings.block_sadness = changes.block_sadness.newValue;
+        if(changes.block_toxic !== undefined) settings.block_toxic = changes.block_toxic.newValue;
+        if(changes.whitelist !== undefined) settings.whitelist = changes.whitelist.newValue;
+        if(changes.platform_threshold !== undefined) settings.platform_threshold = changes.platform_threshold.newValue;
+
+        console.log('settings updated: ', settings);
+                resetAndRescan();
+    }
+});
+
+
+
+
+function resetAndRescan() {
+
+
+    document.querySelectorAll('[vibe-checked]').forEach(el => el.removeAttribute('vibe-checked'));
+
+
+    document.querySelectorAll('.vibe-overlay').forEach(el => el.remove());
+}
+
+
+last_scan = 0;
+
+if(cuyrrent_platform) scanFeed();
 const SELECTORS = {
 
 
