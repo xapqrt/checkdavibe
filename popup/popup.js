@@ -14,48 +14,50 @@ function init() {
     const thresholdVal = document.getElementById('threshold-val');
     const saveBtn = document.getElementById('save');
     const statusDiv = document.getElementById('status');
+
+
+    thresholdSlider.addEventListener('input', (e) => {
+
+        thresholdVal.textContent = e.target.value;
+    });
+
+
+    saveBtn.addEventListener('click', () => {
+
+        const settings = {
+
+            enabled: document.getElementById('enabled').checked,
+            threshold: parseFloat(document.getElementById('threshold').value),
+            block_anger: document.getElementById('block_anger').checked,
+            block_sadness: document.getElementById('block_sadness').checked,
+            block_toxic: document.getElementById('block_toxic').checked
+
+        };
+
+
+        chrome.storage.sync.set(settings, () => {
+
+            statusDiv.textContent = 'saved!';
+            statusDiv.style.color = '#1DB954';
+
+            setTimeout(() => {
+
+                statusDiv.textContent = '';
+
+            }, 2000);
+        });
+    });
+
+
+
+    document.getElementById('clear-stats').addEventListener('click', () => {
+
+        chrome.storage.local.set({stats: {total : 0, anger: 0, sadness: 0, toxic: 0}}, () => {
+
+            loadStats();
+        });
+    });
 }
-thresholdSlider.addEventListener('input', (e) => {
-
-    thresholdVal.textContent = e.target.value;
-});
-
-
-saveBtn.addEventListener('click', () => {
-
-    const settings = {
-
-        enabled: document.getElementById('enabled').checked,
-        threshold: parseFloat(document.getElementById('threshold').value),
-        block_anger: document.getElementById('block_anger').checked,
-        block_sadness: document.getElementById('block_sadness').checked,
-        block_toxic: document.getElementById('block_toxic').checked
-
-    };
-
-
-    chrome.storage.sync.set(settings, () => {
-
-        statusDiv.textContent = 'saved!';
-        statusDiv.style.color = '#1DB954';
-
-        setTimeout(() => {
-
-            statusDiv.textContent = '';
-
-        }, 2000);
-    });
-});
-
-
-
-document.getElementById('clear-stats').addEventListener('click', () => {
-
-    chrome.storage,local.set({stats: {total : 0, anger: 0, sadness: 0, toxic: 0}}, () => {
-
-        loadStats();
-    });
-});
 
 
 
@@ -80,7 +82,7 @@ function loadSettings() {
 
         'enabled',
         'threshold',
-        'block-anger',
+        'block_anger',
         'block_sadness',
         'block_toxic'
     ], (result) => {
