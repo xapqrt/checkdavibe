@@ -3,6 +3,9 @@
 a browser extension that filters out bad vibes from ur social media feed. it scans posts in real time using nlp and if something is negative/toxic/angry it blurs it out so u dont have to see it unless u want to.
 
 
+EXTENSION TESTED VIDEO: https://drive.google.com/file/d/1XTuXyc3mkDoZaKwPaStXoCQ5Hw5V525x/view?usp=sharing
+
+
 
 ## what it does
 
