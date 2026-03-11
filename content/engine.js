@@ -87,8 +87,8 @@ if(text === text.toUpperCase() && text.length > 10 && bad_count > 0)  {
 
 function isToxic(text, threshold, active_cats) {
 
-    const score = analyzeVibe(text, active_cats);
-    return score < threshold;
+    const result = analyzeVibe(text, active_cats);
+    return result.score < threshold;
 
 }
 
