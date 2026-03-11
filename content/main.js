@@ -12,6 +12,9 @@ let scan_delay = 300;
 let debounce_timeout = null;
 let scan_count = 0;
 let last_scan = 0;
+let last_url = window.location.href;
+
+
 
 
 
@@ -94,7 +97,7 @@ function resetAndRescan() {
 
 last_scan = 0;
 
-if(cuyrrent_platform) scanFeed();
+if(current_platform) scanFeed();
 const SELECTORS = {
 
 
@@ -347,3 +350,38 @@ if (current_platform) {
 
     console.log('ay this isnt da platform we talked bout')
 }
+
+
+
+
+
+
+
+
+
+/// s[pa navigation detections]
+
+
+setInterval(() => {
+
+    if(window.location.href !== last_url) {
+
+        console.log('url changed, rescanning feed');
+        last_url = window.location.href;
+        
+
+        if (mut_obs){
+
+            mut_obs.disconnect();
+            console.log('disconnected observer for url change');
+            mut_obs = null;
+        }
+
+
+        last_scan = 0;
+        scan_count = 0;
+
+        initWhenReady();
+
+    }
+}, 1000);
