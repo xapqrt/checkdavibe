@@ -44,8 +44,6 @@ words.forEach((word, i) =>  {
 
             if(detected === null) detected = entry.cat;
            }
-
-            if(!detected) detected = entry.cat;
         }
 
     }
@@ -53,13 +51,12 @@ words.forEach((word, i) =>  {
 
     if (good_words[clean_word]) {
         const entry = good_words[clean_word];
-        if(!active_cats || active_cats.includes(entry.cat)) {
-            const word_score = is_negated ? entry.score * -0.5 : entry.score;
+        //good words should always count to offset bad ones
+        const word_score = is_negated ? entry.score * -0.5 : entry.score;
 
-            score += word_score;
+        score += word_score;
 
-            if(!is_negated) good_count++;
-        }
+        if(!is_negated) good_count++;
     }
 
 

@@ -179,7 +179,8 @@ button:hover {
     color: #ccc;
 }
 
-.whitelist-tag button {
+.whitelist-tag button,
+.whitelist-remove {
 
     background: none;
     border: none;
@@ -191,7 +192,8 @@ button:hover {
     margin: 0;
 }
 
-.whitelist-tag button:hover {
+.whitelist-tag button:hover,
+.whitelist-remove:hover {
 
     color: #ff6b6b;
     background: none;
