@@ -41,7 +41,13 @@ function saveStats() {
             toxic: existing.toxic + session_stats.toxic
         };
 
-        chrome.storage.local.set({ stats: merged }); 
+        chrome.storage.local.set({ stats: merged });
+
+        //reset so we dont double count next time
+        session_stats.total = 0;
+        session_stats.anger = 0;
+        session_stats.sadness = 0;
+        session_stats.toxic = 0;
     });
 }
 
@@ -91,28 +97,11 @@ chrome.storage.onChanged.addListener((changes, area) => {
         if(changes.block_anger !== undefined) settings.block_anger = changes.block_anger.newValue;
         if(changes.block_sadness !== undefined) settings.block_sadness = changes.block_sadness.newValue;
         if(changes.block_toxic !== undefined) settings.block_toxic = changes.block_toxic.newValue;
+        if(changes.whitelist !== undefined) settings.whitelist = changes.whitelist.newValue;
         
         console.log('settings updated: ', settings);
+        resetAndRescan();
         }
-});
-
-
-
-    chrome.storage.onChanged.addListener((changes, area) => {
-
-    if(area === 'sync') {
-
-        if(changes.enabled !== undefined) settings.enabled = changes.enabled.newValue;
-        if(changes.threshold !== undefined) settings.threshold = changes.threshold.newValue;
-        if(changes.block_anger !== undefined) settings.block_anger = changes.block_anger.newValue;
-        if(changes.block_sadness !== undefined) settings.block_sadness = changes.block_sadness.newValue;
-        if(changes.block_toxic !== undefined) settings.block_toxic = changes.block_toxic.newValue;
-        if(changes.whitelist !== undefined) settings.whitelist = changes.whitelist.newValue;
-        if(changes.platform_threshold !== undefined) settings.platform_threshold = changes.platform_threshold.newValue;
-
-        console.log('settings updated: ', settings);
-                resetAndRescan();
-    }
 });
 
 
@@ -125,12 +114,13 @@ function resetAndRescan() {
 
 
     document.querySelectorAll('.vibe-overlay').forEach(el => el.remove());
+
+    last_scan = 0;
+
+    if(current_platform) scanFeed();
 }
 
 
-last_scan = 0;
-
-if(current_platform) scanFeed();
 const SELECTORS = {
 
 
@@ -298,30 +288,31 @@ function scanFeed() {
         }
 
         //i think the above shi is ok for now
-       const active_cats = {
+       const active_cats = [];
 
-            anger: settings.block_anger,
-            sadness: settings.block_sadness,
-            toxic: settings.block_toxic
-        };
+        if(settings.block_anger) active_cats.push('anger');
+        if(settings.block_sadness) active_cats.push('sadness');
+        if(settings.block_toxic) active_cats.push('toxic');
+
             const {score: vibe_score, emotion} = analyzeVibe(txt, active_cats);
 
 
         if (vibe_score < settings.threshold && emotion !== null) {
 
             injectBlur(post, vibe_score, emotion);
+
+            session_stats.total++;
+            if (session_stats[emotion] !== undefined) session_stats[emotion]++;
         }
-
-
-        session_stats.total++;
-        if (session_stats[emotion] !== undefined) session_stats[emotion]++;
-        saveStats();
 
         post.setAttribute('vibe-checked', 'true');
         checked_count++;
 
         
      });
+
+     //save stats once per scan not per post lol
+     if(checked_count > 0) saveStats();
 
      const elapsed = performance.now() - start;
      
