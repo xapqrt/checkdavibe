@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     loadSettings();
+    loadStats();
     init();
 
 });
@@ -45,6 +46,32 @@ saveBtn.addEventListener('click', () => {
         }, 2000);
     });
 });
+
+
+
+document.getElementById('clear-stats').addEventListener('click', () => {
+
+    chrome.storage,local.set({stats: {total : 0, anger: 0, sadness: 0, toxic: 0}}, () => {
+
+        loadStats();
+    });
+});
+
+
+
+function loadStats() {
+
+    chrome.storage.local.get(['stats'], (result) => {
+
+        const stats = result.stats || {total: 0, anger: 0, sadness: 0, toxic: 0};
+
+        document.getElementById('stat-total').textContent = stats.total;
+        document.getElementById('stat-anger').textContent = stats.anger;
+        document.getElementById('stat-sadness').textContent = stats.sadness;
+        document.getElementById('stat-toxic').textContent = stats.toxic;
+    });
+}
+
 
 function loadSettings() {
 

@@ -114,3 +114,70 @@ button:hover {
 
     min-height: 18px;
 }
+
+
+
+.stats-box {
+
+    margin-top: 16px;
+    padding: 10px;
+    background-color: #2a2a2a;
+    border-radius: 6px;
+    border: 1px solid #333;
+
+}
+
+
+
+.stats-title {
+
+    font-size: 11px;
+    color: #888;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+}
+
+
+
+.stats-row {
+
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 4px;
+    color: #ccc;
+    font-size: 13px;
+}
+
+
+.stats-row span:last-child {
+
+    color: #1db954;
+    font-weight: 600;
+}
+
+
+
+#clear-stats {
+
+    width: 100%;
+    background: #333;
+    color: #888;
+
+    border: none;
+    padding: 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    cursor: pointer;
+    margin-top: 10px;
+
+}
+
+
+
+#clear-stats:hover {
+
+    background: #444;
+    color: #aaa;
+
+}

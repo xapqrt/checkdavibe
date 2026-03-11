@@ -15,6 +15,39 @@ let last_scan = 0;
 let last_url = window.location.href;
 
 
+const session_stats = {
+
+
+    total: 0,
+    anger: 0,
+    sadness: 0,
+    toxic: 0
+
+};
+
+
+
+function saveStats() {
+
+
+    chrome.storage.local.get(['stats'], (result) => {
+
+        const existing = result.stats || { total: 0, anger: 0, sadness: 0, toxic: 0 };
+        const merged = {
+
+            total: existing.total + session_stats.total,
+            anger: existing.anger + session_stats.anger,
+            sadness: existing.sadness + session_stats.sadness,
+            toxic: existing.toxic + session_stats.toxic
+        };
+
+        chrome.storage.local.set({ stats: merged }); 
+    });
+}
+
+
+
+
 
 
 
@@ -279,6 +312,10 @@ function scanFeed() {
             injectBlur(post, vibe_score, emotion);
         }
 
+
+        session_stats.total++;
+        if (session_stats[emotion] !== undefined) session_stats[emotion]++;
+        saveStats();
 
         post.setAttribute('vibe-checked', 'true');
         checked_count++;
