@@ -227,6 +227,7 @@ function initScanner() {
 
 function scanFeed() {
 
+    if(!settings.enabled) return;
 
     const now = Date.now();
 
