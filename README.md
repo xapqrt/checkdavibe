@@ -6,6 +6,20 @@ a browser extension that filters out bad vibes from ur social media feed. it sca
 EXTENSION TESTED VIDEO: https://drive.google.com/file/d/1XTuXyc3mkDoZaKwPaStXoCQ5Hw5V525x/view?usp=sharing
 
 
+Time lapses:
+
+https://lapse.hackclub.com/timelapse/_X-6potlNUpJ
+https://lapse.hackclub.com/timelapse/bY8CkBlyZ6nz
+https://lapse.hackclub.com/timelapse/FKQTmGNMvgNA
+https://lapse.hackclub.com/timelapse/1irqj6JTP7Rh
+https://lapse.hackclub.com/timelapse/D0z9hsD2PPFp
+https://lapse.hackclub.com/timelapse/9XnyvLFREmfY
+https://lapse.hackclub.com/timelapse/ded5YrtHP_Le
+https://lapse.hackclub.com/timelapse/5D6CK0iHUHvr
+https://lapse.hackclub.com/timelapse/DYcb57hDh1lZ
+
+
+
 
 ## what it does
 
